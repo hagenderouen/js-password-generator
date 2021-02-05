@@ -79,24 +79,22 @@ function createPassword(charLength, combosArray = ["lowercase", "uppercase"]) {
 
 // Gets a random character from charType (lowercase, uppercase, special, numeric)
 function getRandomChar(charType) {
-  const alphabet = "abcdefghijklmnopqrstuvwxyz";
-  const alphabetArr = alphabet.split('');
-  const specialChars = "~`!@#$%^&*()-+={[}]|:;'<,>.?/_";
-  const specialCharsArr = specialChars.split('');
+  const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
+  const specialChars = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~".split('');
   var randChar;
 
   switch(charType) {
     case "lowercase":
       var rand = getRandomNumber(0, 26);
-      randChar = alphabetArr[rand].toLowerCase();
+      randChar = alphabet[rand].toLowerCase();
       break;
     case "uppercase":
       var rand = getRandomNumber(0, 26);
-      randChar = alphabetArr[rand].toUpperCase();
+      randChar = alphabet[rand].toUpperCase();
       break;
     case "special":
       var rand = getRandomNumber(0, 30);
-      randChar = specialCharsArr[rand];
+      randChar = specialChars[rand];
       break;
     case "numeric":
       randChar = getRandomNumber(0, 9);
