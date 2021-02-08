@@ -10,65 +10,67 @@ function writePassword() {
 
 }
 
-// Add event listener to generate button
+// Adds an event listener to generate button
 generateBtn.addEventListener("click", writePassword);
 
+// * Main worker function
 function generatePassword() {
   var passwordLength = getUserPasswordLength();
-  var passwordCombos = getUserPasswordCombos();
+  var passwordCharTypes = getUserPasswordCharTypes();
 
-  return createPassword(passwordLength, passwordCombos);
+  return createPassword(passwordLength, passwordCharTypes);
 }
 
-// Prompts user for password length with specified min and max characters.
+// Prompts user for password length with validation handling.
 function getUserPasswordLength() {
-  var passwordLengthInput = prompt("Specify password length betwen 8 and 128 characters.", "16");
+  var passwordLength = prompt("Choose your password length betwen 8 and 128 characters.", "16");
   
-  while (!lengthIsValid(passwordLengthInput, 8, 128)) {
-    passwordLengthInput = prompt("Try again. Password length must be between 8 and 128 characters.");
+  // Validates that the password length is in the specified range and continuously prompts user if length is not valid.
+  while (!isLengthValid(passwordLength, 8, 128)) {
+    passwordLength = prompt("Try again. Password length must be between 8 and 128 characters.");
   }
 
-  return passwordLengthInput;
+  return passwordLength;
   
 }
 
-// Prompts user of password combinations. Returns an array of user specified character types.
-function getUserPasswordCombos() {
-  var combosInput = prompt("Specify use of password combinations", "lowercase, uppercase, numeric, or special");
-  var combos = [];
+// Prompts user of password character types and returns an array of specified character types.
+function getUserPasswordCharTypes() {
+  var charTypes = prompt("Choose your password character types.", "lowercase, uppercase, numeric, or special");
+  var charTypesResult = [];
 
-  if (!combosInput) {
-    return combos;
+  if (!charTypes) {
+    return;
   } else {
-    combosInput = combosInput.toLowerCase();
+    charTypes = charTypes.toLowerCase();
   }
 
-  if (combosInput.includes("lowercase")) {
-    combos.push("lowercase");
+  if (charTypes.includes("lowercase")) {
+    charTypesResult.push("lowercase");
   }
   
-  if (combosInput.includes("uppercase")) {
-    combos.push("uppercase");
+  if (charTypes.includes("uppercase")) {
+    charTypesResult.push("uppercase");
   }
   
-  if (combosInput.includes("numeric")) {
-    combos.push("numeric");
+  if (charTypes.includes("numeric")) {
+    charTypesResult.push("numeric");
   }
   
-  if (combosInput.includes("special")) {
-    combos.push("special");
+  if (charTypes.includes("special")) {
+    charTypesResult.push("special");
   }
 
-  return combos;
+  return charTypesResult;
 
 }
 
-// Creates a password from numeric length and combos array. Defaults lower and uppercase chars if combos is empty.
-function createPassword(charLength, combosArray = ["lowercase", "uppercase"]) {
+// Creates a password from numeric length and character types array. Defaults to lower and uppercase char types.
+function createPassword(charLength, charTypes = ["lowercase", "uppercase"]) {
   var password = "";
 
   for (var i = 0; i < charLength; i++) {
-    var charType = combosArray[getRandomNumber(0, combosArray.length)];
+    var charType = charTypes[getRandomNumber(0, charTypes.length)];
     var randChar = getRandomChar(charType);
 
     password += randChar;
@@ -77,7 +79,7 @@ function createPassword(charLength, combosArray = ["lowercase", "uppercase"]) {
   return password;
 }
 
-// Gets a random character from charType (lowercase, uppercase, special, numeric)
+// Gets a random character from a character type (lowercase, uppercase, special, numeric).
 function getRandomChar(charType) {
   const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
   const specialChars = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~".split('');
@@ -108,8 +110,8 @@ function getRandomChar(charType) {
 }
 
 // * Utility Functions
-// Checks if an input is between min and max values 
-function lengthIsValid(input, min, max) {
+// Checks if a number is between min and max values 
+function isLengthValid(input, min, max) {
   if (!input) { 
     return false;
   } else if (input >= min && input <= max) {
